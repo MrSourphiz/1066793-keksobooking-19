@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Миша Забава](https://up.htmlacademy.ru/javascript/19/user/1066793).
-* Наставник: `Неизвестно`.
+* Наставник: [Птетька Волобуев](https://htmlacademy.ru/profile/id635515).
 
 ---
 
