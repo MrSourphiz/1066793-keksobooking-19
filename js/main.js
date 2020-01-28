@@ -9,18 +9,27 @@ var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 
 var generateRandomNumber = function (min, max) {
-  var randomNumber = Math.floor(Math.random() * (max - min) + 1) + min;
+  var randomNumber = Math.floor(Math.random() * (max - min + 1) + min);
   return randomNumber;
 };
 
-/* var elementInArr = function (arr, elementIndex, newArr) {
-  var number;
-  for (var i = 0; i < newArr.length; i++) {
-    if (newArr[i] === arr[elementIndex]) {
-      return true;
+var generateUniqueArr = function (arr) {
+  var uniqueArr = [];
+  for (var i = 0; i < arr.length; i++) {
+    var number = arr[i];
+    var hitCounter = 0;
+    for (var j = 0; j < arr.length; j++) {
+      if (number === arr[j]) {
+        hitCounter++;
+      }
+    }
+    if (hitCounter === 1) {
+      uniqueArr.push(number);
     }
   }
-}; */
+
+  return uniqueArr;
+};
 
 var generateRandomArr = function (length, arr) {
   var minLength = 1;
@@ -35,17 +44,22 @@ var generateRandomArr = function (length, arr) {
 
   while (newArr.length < newArrLength) {
     var newArrElementIndex = generateRandomNumber(0, maxLength - 1);
-    /* if (elementInArr(arr, newArrElementIndex, newArr)) {
-      continue;
-    } */
-    newArr.push(arr[newArrElementIndex]);
+    newArr.push(newArrElementIndex);
   }
 
-  return newArr;
+  var uniqueArr = generateUniqueArr(newArr);
+  var valueArr = [];
+  for (var i = 0; i < uniqueArr.length; i++) {
+    var uniqueArrIndex = uniqueArr[i];
+    valueArr.push(arr[uniqueArrIndex]);
+  }
+
+  return valueArr;
 };
 
 var generatePlaceArr = function (place) {
   var placeArr = [];
+
   while (placeArr.length < 8) {
     placeArr.push(place);
   }
@@ -58,7 +72,7 @@ var place = {
   },
   offer: {
     title: 'заголовок предложения',
-    addrres: '{{location.x}}, {{location.y}}',
+    addres: '{{location.x}}, {{location.y}}',
     price: generateRandomNumber(500, 3200),
     type: generateRandomArr(1, PLACE_TYPE),
     rooms: generateRandomNumber(1, 4),
