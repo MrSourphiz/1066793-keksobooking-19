@@ -6,7 +6,7 @@ var PLACE_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'co
 var PLACE_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
+
 var mapPinsElement = map.querySelector('.map__pins');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 
@@ -82,8 +82,8 @@ var generatePlaceArr = function (length) {
         photos: generateRandomArr(3, PLACE_PHOTOS)
       },
       location: {
-        x: generateRandomNumber(50, 1150),
-        y: generateRandomNumber(130, 630)
+        x: generateRandomNumber(100, 1000),
+        y: generateRandomNumber(230, 550)
       }
     };
     placeArr.push(place);
@@ -91,13 +91,16 @@ var generatePlaceArr = function (length) {
   return placeArr;
 };
 
-generatePlaceArr(8);
+map.classList.remove('map--faded');
 
-var renderPlace = function (place) {
+var renderPlace = function (object) {
   var placeElement = templatePin.cloneNode(true);
-  placeElement.querySelector('.map__pin').style = 'left: ' + (place.location.x + 40) + 'px; top: ' + (place.location.y + 40) + 'px;';
-  placeElement.getElementsByTagName('img').src = place.author.avatar;
-  placeElement.getElementsByTagName('img').alt = place.offer.title;
+  placeElement.style.left = (object.location.x + 40) + 'px';
+  placeElement.style.top = (object.location.y + 40) + 'px';
+  placeElement.querySelector('img').src = object.author.avatar;
+  placeElement.querySelector('img').alt = object.offer.title;
+
+  return placeElement;
 };
 
 var fragment = document.createDocumentFragment();
@@ -107,4 +110,3 @@ for (var i = 0; i < placeArr.length; i++) {
 }
 
 mapPinsElement.appendChild(fragment);
-
