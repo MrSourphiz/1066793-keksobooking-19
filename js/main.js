@@ -64,13 +64,15 @@ var generatePlaceArr = function (length) {
   var placeArr = [];
 
   while (placeArr.length < maxLength) {
+    var locationX = generateRandomNumber(100, 1000);
+    var locationY = generateRandomNumber(230, 550);
     var place = {
       author: {
         avatar: 'img/avatars/user0' + generateRandomNumber(1, 8) + '.png'
       },
       offer: {
         title: 'заголовок предложения',
-        addres: location.x + ', ' + location.y,
+        addres: locationX + ', ' + locationY,
         price: generateRandomNumber(500, 3200),
         type: generateRandomArr(1, PLACE_TYPE),
         rooms: generateRandomNumber(1, 4),
@@ -82,8 +84,8 @@ var generatePlaceArr = function (length) {
         photos: generateRandomArr(3, PLACE_PHOTOS)
       },
       location: {
-        x: generateRandomNumber(100, 1000),
-        y: generateRandomNumber(230, 550)
+        x: locationX,
+        y: locationY
       }
     };
     placeArr.push(place);
