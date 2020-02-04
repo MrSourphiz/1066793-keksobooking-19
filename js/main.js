@@ -15,18 +15,20 @@ var generateRandomNumber = function (min, max) {
   return randomNumber;
 };
 
-var generateUniqueArr = function (arr) {
+var getUniqueArrayItems = function (arr) {
   var uniqueArr = [];
+  var isUnique;
   for (var i = 0; i < arr.length; i++) {
-    var number = arr[i];
-    var hitCounter = 0;
     for (var j = 0; j < arr.length; j++) {
-      if (number === arr[j]) {
-        hitCounter++;
+      if (i !== j && arr[i] === arr[j]) {
+        isUnique = false;
+        break;
+      } else {
+        isUnique = true;
       }
     }
-    if (hitCounter === 1) {
-      uniqueArr.push(number);
+    if (isUnique) {
+      uniqueArr.push(arr[i]);
     }
   }
 
@@ -36,27 +38,16 @@ var generateUniqueArr = function (arr) {
 var generateRandomArr = function (length, arr) {
   var minLength = 1;
   var maxLength = arr.length;
-  var newArr = [];
+  var newArrLength = minLength;
 
-  if (length === 1) {
-    var newArrLength = minLength;
-  } else {
+  if (length !== minLength) {
     newArrLength = generateRandomNumber(minLength, maxLength);
   }
 
-  while (newArr.length < newArrLength) {
-    var newArrElementIndex = generateRandomNumber(0, maxLength - 1);
-    newArr.push(newArrElementIndex);
-  }
+  var newArr = arr.splice(0, newArrLength);
+  var uniqueArr = getUniqueArrayItems(newArr);
 
-  var uniqueArr = generateUniqueArr(newArr);
-  var valueArr = [];
-  for (var i = 0; i < uniqueArr.length; i++) {
-    var uniqueArrIndex = uniqueArr[i];
-    valueArr.push(arr[uniqueArrIndex]);
-  }
-
-  return valueArr;
+  return uniqueArr;
 };
 
 var generatePlaceArr = function (length) {
