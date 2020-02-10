@@ -29,9 +29,9 @@ var getUniqueArrayItems = function (arr) {
     }
     if (isUnique) {
       uniqueArr.push(arr[i]);
+      arr.splice(i, 1);
+      i--;
     }
-    arr.splice(i, 1);
-    i--;
   }
 
   return uniqueArr;
