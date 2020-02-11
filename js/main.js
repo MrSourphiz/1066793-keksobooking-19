@@ -5,10 +5,19 @@ var PLACE_TIME = ['12:00', '13:00', '14:00'];
 var PLACE_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PLACE_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
+var translation = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало'
+};
+
 var map = document.querySelector('.map');
 
 var mapPinsElement = map.querySelector('.map__pins');
+var mapCardElement = map.querySelector('.map__filters-container');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
+var templateCard = document.querySelector('#card').content.querySelector('.map__card');
 
 var generateRandomNumber = function (min, max) {
   var randomNumber = Math.floor(Math.random() * (max - min + 1) + min);
@@ -29,8 +38,6 @@ var getUniqueArrayItems = function (arr) {
     }
     if (isUnique) {
       uniqueArr.push(arr[i]);
-      arr.splice(i, 1);
-      i--;
     }
   }
 
@@ -87,7 +94,28 @@ var generatePlaceArr = function (length) {
   return placeArr;
 };
 
-map.classList.remove('map--faded');
+var getTranslate = function (object) {
+  var sourceString = object.offer.type.toString();
+  var translate = translation[sourceString];
+  return translate;
+};
+
+var renderPhotos = function (photos, cardElement) {
+  var fragmentPhoto = document.createDocumentFragment();
+  var cardPhotos = cardElement.querySelector('.popup__photos');
+  var cardPhotosElement = cardElement.querySelector('.popup__photo').cloneNode(true);
+  cardPhotos.innerHTML = '';
+  if (photos.length === 0) {
+    cardPhotos.style.display = 'none';
+  } else {
+    for (var i = 0; i < photos.length; i++) {
+      var photo = cardPhotosElement.cloneNode(true);
+      photo.src = photos[i];
+      fragmentPhoto.appendChild(photo);
+    }
+  }
+  return cardPhotos.appendChild(fragmentPhoto);
+};
 
 var renderPlace = function (object) {
   var placeElement = templatePin.cloneNode(true);
@@ -99,10 +127,29 @@ var renderPlace = function (object) {
   return placeElement;
 };
 
+var renderCard = function (object) {
+  var cardElement = templateCard.cloneNode(true);
+  cardElement.querySelector('.popup__title').textContent = object.offer.title;
+  cardElement.querySelector('.popup__text--address').textContent = object.offer.addres;
+  cardElement.querySelector('.popup__text--price').textContent = object.offer.price + '₽/за ночь';
+  cardElement.querySelector('.popup__type').textContent = getTranslate(object);
+  cardElement.querySelector('.popup__text--capacity').textContent = object.offer.rooms + ' комнаты для ' + object.offer.guests + ' гостей';
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + object.offer.checkin + ', выезд до ' + object.offer.checkout;
+  cardElement.querySelector('.popup__features').textContent = object.offer.features;
+  cardElement.querySelector('.popup__description').textContent = object.offer.descriprion;
+  cardElement.querySelector('.popup__avatar').setAttribute('src', object.author.avatar);
+  renderPhotos(object.offer.photos, cardElement);
+
+  return cardElement;
+};
+
 var fragment = document.createDocumentFragment();
 var placeArr = generatePlaceArr(8);
 for (var i = 0; i < placeArr.length; i++) {
   fragment.appendChild(renderPlace(placeArr[i]));
+  fragment.appendChild(renderCard(placeArr[0]));
 }
 
 mapPinsElement.appendChild(fragment);
+mapCardElement.appendChild(fragment);
+map.classList.remove('map--faded');
