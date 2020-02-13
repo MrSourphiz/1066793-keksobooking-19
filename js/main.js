@@ -44,16 +44,20 @@ var getUniqueArrayItems = function (arr) {
   return uniqueArr;
 };
 
-var generateRandomArr = function (length, arr) {
+var getRandomElement = function (arr) {
+  var randomIndex = generateRandomNumber(0, arr.length - 1);
+  var randomElement = arr[randomIndex];
+
+  return randomElement;
+};
+
+var generateRandomArr = function (arr) {
   var minLength = 1;
   var maxLength = arr.length;
-  var newArrLength = minLength;
-  var newArr = arr.splice(generateRandomNumber(0, maxLength - 1), newArrLength);
+  var newArrLength = generateRandomNumber(minLength, maxLength);
 
-  if (length !== minLength) {
-    newArrLength = generateRandomNumber(minLength, maxLength);
-    newArr = arr.splice(0, newArrLength);
-  }
+  var copyArr = arr.slice();
+  var newArr = copyArr.splice(0, newArrLength);
 
   var uniqueArr = getUniqueArrayItems(newArr);
 
@@ -75,14 +79,14 @@ var generatePlaceArr = function (length) {
         title: 'заголовок предложения',
         addres: locationX + ', ' + locationY,
         price: generateRandomNumber(500, 3200),
-        type: generateRandomArr(1, PLACE_TYPE),
+        type: getRandomElement(PLACE_TYPE),
         rooms: generateRandomNumber(1, 4),
         guests: generateRandomNumber(1, 4),
-        checkin: generateRandomArr(1, PLACE_TIME),
-        checkout: generateRandomArr(1, PLACE_TIME),
-        features: generateRandomArr(7, PLACE_FEATURES),
+        checkin: getRandomElement(PLACE_TIME),
+        checkout: getRandomElement(PLACE_TIME),
+        features: generateRandomArr(PLACE_FEATURES),
         descriprion: 'строка с описанием',
-        photos: generateRandomArr(3, PLACE_PHOTOS)
+        photos: generateRandomArr(PLACE_PHOTOS)
       },
       location: {
         x: locationX,
