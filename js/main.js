@@ -27,20 +27,22 @@ var generateRandomNumber = function (min, max) {
 var getUniqueArrayItems = function (arr) {
   var uniqueArr = [];
   var isUnique;
+
   for (var i = 0; i < arr.length; i++) {
-    for (var j = 0; j < arr.length; j++) {
-      if (i !== j && arr[i] === arr[j]) {
-        isUnique = false;
-        break;
-      } else {
-        isUnique = true;
-      }
+    var copyArr = arr.slice();
+    copyArr.splice(i, 1);
+    var index = copyArr.indexOf(arr[i]);
+
+    if (index !== -1) {
+      isUnique = false;
+    } else {
+      isUnique = true;
     }
+
     if (isUnique) {
       uniqueArr.push(arr[i]);
     }
   }
-
   return uniqueArr;
 };
 
