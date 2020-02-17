@@ -1,23 +1,141 @@
 'use strict';
+var ENTER_KEY = 'Enter';
+
+var PIN_X = 31;
+var PIN_Y = 84;
+
+var MIN_TITLE_LENGTH = 30;
 
 var PLACE_TYPE = ['palace', 'flat', 'house', 'bungalo'];
 var PLACE_TIME = ['12:00', '13:00', '14:00'];
 var PLACE_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PLACE_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
-var translation = {
+var time = {
+  '12:00': '12:00',
+  '13:00': '13:00',
+  '14:00': '14:00'
+};
+
+var minPrice = {
+  palace: 10000,
+  flat: 1000,
+  house: 5000,
+  bungalo: 0
+};
+
+/* var translation = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
   bungalo: 'Бунгало'
-};
+};*/
 
 var map = document.querySelector('.map');
+var mapFilters = map.querySelector('.map__filters');
+var mapPinMain = map.querySelector('.map__pin--main');
 
 var mapPinsElement = map.querySelector('.map__pins');
-var mapCardElement = map.querySelector('.map__filters-container');
+/* var mapCardElement = map.querySelector('.map__filters-container');*/
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
-var templateCard = document.querySelector('#card').content.querySelector('.map__card');
+/* var templateCard = document.querySelector('#card').content.querySelector('.map__card');*/
+
+var adForm = document.querySelector('.ad-form');
+var inputTitle = adForm.querySelector('#title');
+var inputAddress = adForm.querySelector('#address');
+var adFormFieldsetList = adForm.querySelectorAll('fieldset');
+
+var selectType = adForm.querySelector('#type');
+var selectPrice = adForm.querySelector('#price');
+var selectTimeIn = adForm.querySelector('#timein');
+var selectTimeOut = adForm.querySelector('#timeout');
+
+var disabledFilters = function () {
+  mapFilters.setAttribute('disabled', 'disabled');
+
+  for (var i = 0; i < adFormFieldsetList.length; i++) {
+    var fieldsetElement = adFormFieldsetList[i];
+    fieldsetElement.setAttribute('disabled', 'disabled');
+  }
+};
+
+var inActiveState = function () {
+  mapPinsElement.appendChild(fragment);
+  /* mapCardElement.appendChild(fragment);*/
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  mapFilters.removeAttribute('disabled');
+  inputAddress.setAttribute('readonly', 'readonly');
+  for (var i = 0; i < adFormFieldsetList.length; i++) {
+    var fieldsetElement = adFormFieldsetList[i];
+    fieldsetElement.removeAttribute('disabled');
+  }
+};
+
+var getCoords = function () {
+  var coordX = mapPinMain.offsetLeft + PIN_X;
+  var coordY = mapPinMain.offsetTop + PIN_Y;
+  inputAddress.value = 'X: ' + coordX + ', ' + 'Y: ' + coordY;
+};
+
+var getMinPrice = function () {
+  var price = minPrice[selectType.value];
+  selectPrice.min = price;
+  selectPrice.placeholder = price;
+};
+
+var syncTime = function (object1, object2) {
+  var sync = time[object1.value];
+  object2.value = sync;
+};
+
+disabledFilters();
+
+mapPinMain.addEventListener('mousedown', function (evt) {
+  if (typeof evt === 'object') {
+    switch (evt.button) {
+      case 0:
+        inActiveState();
+        getCoords();
+        break;
+    }
+  }
+});
+
+mapPinMain.addEventListener('keydown', function (evt) {
+  if (evt.key === ENTER_KEY) {
+    inActiveState();
+  }
+});
+
+inputTitle.addEventListener('invalid', function () {
+  if (inputTitle.validity.tooShort) {
+    inputTitle.setCustomValidity('Заголовок объявления должен состоять минимум из 30-ти символов');
+  } else if (inputTitle.validity.tooLong) {
+    inputTitle.setCustomValidity('Заголовок объявления не должен превышать 100 символов');
+  } else if (inputTitle.validity.valueMissing) {
+    inputTitle.setCustomValidity('Обязательное поле');
+  } else {
+    inputTitle.setCustomValidity('');
+  }
+});
+
+inputTitle.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.length < MIN_TITLE_LENGTH) {
+    target.setCustomValidity('Заголовок объявления должен состоять минимум из ' + MIN_TITLE_LENGTH + '-ти символов');
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
+selectType.addEventListener('change', getMinPrice);
+selectTimeIn.addEventListener('change', function () {
+  syncTime(selectTimeIn, selectTimeOut);
+});
+selectTimeOut.addEventListener('change', function () {
+  syncTime(selectTimeOut, selectTimeIn);
+});
 
 var generateRandomNumber = function (min, max) {
   var randomNumber = Math.floor(Math.random() * (max - min + 1) + min);
@@ -98,7 +216,7 @@ var generatePlaceArr = function (length) {
   return placeArr;
 };
 
-var getTranslate = function (object) {
+/* var getTranslate = function (object) {
   var sourceString = object.offer.type.toString();
   var translate = translation[sourceString];
   return translate;
@@ -119,7 +237,7 @@ var renderPhotos = function (photos, cardElement) {
     }
   }
   return cardPhotos.appendChild(fragmentPhoto);
-};
+};*/
 
 var renderPlace = function (object) {
   var placeElement = templatePin.cloneNode(true);
@@ -131,7 +249,7 @@ var renderPlace = function (object) {
   return placeElement;
 };
 
-var renderCard = function (object) {
+/* var renderCard = function (object) {
   var cardElement = templateCard.cloneNode(true);
   cardElement.querySelector('.popup__title').textContent = object.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = object.offer.addres;
@@ -145,15 +263,11 @@ var renderCard = function (object) {
   renderPhotos(object.offer.photos, cardElement);
 
   return cardElement;
-};
+};*/
 
 var fragment = document.createDocumentFragment();
 var placeArr = generatePlaceArr(8);
 for (var i = 0; i < placeArr.length; i++) {
   fragment.appendChild(renderPlace(placeArr[i]));
-  fragment.appendChild(renderCard(placeArr[0]));
+  /* fragment.appendChild(renderCard(placeArr[0]));*/
 }
-
-mapPinsElement.appendChild(fragment);
-mapCardElement.appendChild(fragment);
-map.classList.remove('map--faded');
