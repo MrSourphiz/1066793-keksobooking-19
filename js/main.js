@@ -24,21 +24,12 @@ var minPrice = {
   bungalo: 0
 };
 
-/* var translation = {
-  palace: 'Дворец',
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalo: 'Бунгало'
-};*/
-
 var map = document.querySelector('.map');
 var mapFilters = map.querySelector('.map__filters');
 var mapPinMain = map.querySelector('.map__pin--main');
 
 var mapPinsElement = map.querySelector('.map__pins');
-/* var mapCardElement = map.querySelector('.map__filters-container');*/
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
-/* var templateCard = document.querySelector('#card').content.querySelector('.map__card');*/
 
 var adForm = document.querySelector('.ad-form');
 var inputTitle = adForm.querySelector('#title');
@@ -61,7 +52,6 @@ var disabledFilters = function () {
 
 var inActiveState = function () {
   mapPinsElement.appendChild(fragment);
-  /* mapCardElement.appendChild(fragment);*/
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   mapFilters.removeAttribute('disabled');
@@ -145,28 +135,22 @@ var generateRandomNumber = function (min, max) {
 var getUniqueArrayItems = function (arr) {
   var uniqueArr = [];
 
-  for (var i = 0; i < arr.length; i++) {
-    var isUnique = true;
-    var copyArr = arr.slice();
+  arr.forEach(function (item, i, currentArr) {
+    var copyArr = currentArr.slice();
     copyArr.splice(i, 1);
-    var index = copyArr.indexOf(arr[i]);
 
-    if (index !== -1) {
-      isUnique = false;
+    if (copyArr.indexOf(item) === -1) {
+      uniqueArr.push(item);
     }
+  });
 
-    if (isUnique) {
-      uniqueArr.push(arr[i]);
-    }
-  }
   return uniqueArr;
 };
 
 var getRandomElement = function (arr) {
   var randomIndex = generateRandomNumber(0, arr.length - 1);
-  var randomElement = arr[randomIndex];
 
-  return randomElement;
+  return arr[randomIndex];
 };
 
 var generateRandomArr = function (arr) {
@@ -216,29 +200,6 @@ var generatePlaceArr = function (length) {
   return placeArr;
 };
 
-/* var getTranslate = function (object) {
-  var sourceString = object.offer.type.toString();
-  var translate = translation[sourceString];
-  return translate;
-};
-
-var renderPhotos = function (photos, cardElement) {
-  var fragmentPhoto = document.createDocumentFragment();
-  var cardPhotos = cardElement.querySelector('.popup__photos');
-  var cardPhotosElement = cardElement.querySelector('.popup__photo').cloneNode(true);
-  cardPhotos.innerHTML = '';
-  if (photos.length === 0) {
-    cardPhotos.style.display = 'none';
-  } else {
-    for (var i = 0; i < photos.length; i++) {
-      var photo = cardPhotosElement.cloneNode(true);
-      photo.src = photos[i];
-      fragmentPhoto.appendChild(photo);
-    }
-  }
-  return cardPhotos.appendChild(fragmentPhoto);
-};*/
-
 var renderPlace = function (object) {
   var placeElement = templatePin.cloneNode(true);
   placeElement.style.left = (object.location.x + 40) + 'px';
@@ -249,25 +210,9 @@ var renderPlace = function (object) {
   return placeElement;
 };
 
-/* var renderCard = function (object) {
-  var cardElement = templateCard.cloneNode(true);
-  cardElement.querySelector('.popup__title').textContent = object.offer.title;
-  cardElement.querySelector('.popup__text--address').textContent = object.offer.addres;
-  cardElement.querySelector('.popup__text--price').textContent = object.offer.price + '₽/за ночь';
-  cardElement.querySelector('.popup__type').textContent = getTranslate(object);
-  cardElement.querySelector('.popup__text--capacity').textContent = object.offer.rooms + ' комнаты для ' + object.offer.guests + ' гостей';
-  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + object.offer.checkin + ', выезд до ' + object.offer.checkout;
-  cardElement.querySelector('.popup__features').textContent = object.offer.features;
-  cardElement.querySelector('.popup__description').textContent = object.offer.descriprion;
-  cardElement.querySelector('.popup__avatar').setAttribute('src', object.author.avatar);
-  renderPhotos(object.offer.photos, cardElement);
-
-  return cardElement;
-};*/
-
 var fragment = document.createDocumentFragment();
 var placeArr = generatePlaceArr(8);
-for (var i = 0; i < placeArr.length; i++) {
-  fragment.appendChild(renderPlace(placeArr[i]));
-  /* fragment.appendChild(renderCard(placeArr[0]));*/
-}
+
+placeArr.forEach(function (item, index) {
+  fragment.appendChild(renderPlace(placeArr[index]));
+});
