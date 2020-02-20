@@ -1,5 +1,6 @@
 'use strict';
 var ENTER_KEY = 'Enter';
+var ESC_KEY = 'Escape';
 
 var PIN_X = 31;
 var PIN_Y = 84;
@@ -55,7 +56,7 @@ var map = document.querySelector('.map');
 var mapFilters = map.querySelector('.map__filters');
 var mapPinMain = map.querySelector('.map__pin--main');
 var mapPinsElement = map.querySelector('.map__pins');
-var closeButton = map.querySelector('.popup__close');
+
 
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var templateCard = document.querySelector('#card').content.querySelector('.map__card');
@@ -143,7 +144,7 @@ var showCard = function (evt, array) {
       target = target.parentNode;
     }
 
-    removeCard();
+    closeCard();
 
     if (mapPinActive) {
       mapPinActive.classList.remove('map__pin--active');
@@ -155,14 +156,8 @@ var showCard = function (evt, array) {
 };
 
 var closeCard = function () {
-  var mapPinActive = mapPinsElement.querySelector('.map__pin--active');
-  removeCard();
-  mapPinActive.classList.remove('map__pin--active');
-};
-
-var removeCard = function () {
   var mapCard = map.querySelector('.map__card');
-  if (mapCard) {
+  if (map.contains(mapCard)) {
     map.removeChild(mapCard);
   }
 };
@@ -360,6 +355,14 @@ selectRoomNumber.addEventListener('change', syncCapacity);
 
 mapPinsElement.addEventListener('click', function (evt) {
   showCard(evt, placeArr);
+
+  var closeButton = document.querySelector('.popup__close');
+  closeButton.addEventListener('click', closeCard);
+  closeButton.addEventListener('keydown', function (pressEvt) {
+    if (pressEvt.key === ENTER_KEY) {
+      closeCard();
+    }
+  });
 });
 
 mapPinsElement.addEventListener('keydown', function (pressEvt, evt) {
@@ -368,4 +371,10 @@ mapPinsElement.addEventListener('keydown', function (pressEvt, evt) {
   }
 });
 
-closeButton.addEventListener('mousedown', closeCard);
+document.addEventListener('keydown', function (evt) {
+  if (evt.key === ESC_KEY) {
+    closeCard();
+  }
+});
+
+
