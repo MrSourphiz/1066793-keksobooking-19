@@ -55,7 +55,7 @@ var translation = {
 var map = document.querySelector('.map');
 var mapFilters = map.querySelector('.map__filters');
 var mapPinMain = map.querySelector('.map__pin--main');
-var mapPinsElement = map.querySelector('.map__pins');
+var mapPinsElement = document.querySelector('.map__pins');
 
 
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -254,6 +254,23 @@ var getTranslate = function (object) {
   return translate;
 };
 
+var featuresTextToIcon = function (features, cardElement) {
+  var fragmentFeature = document.createDocumentFragment();
+  var cardFeatures = cardElement.querySelector('.popup__features');
+  cardFeatures.innerHTML = '';
+  if (features.length === 0) {
+    cardFeatures.style.display = 'none';
+  } else {
+    for (var i = 0; i < features.length; i++) {
+      var feature = document.createElement('li');
+      feature.classList.add('popup__feature', 'popup__feature--' + features[i]);
+
+      fragmentFeature.appendChild(feature);
+    }
+  }
+  return cardFeatures.appendChild(fragmentFeature);
+};
+
 var renderPhotos = function (photos, cardElement) {
   var fragmentPhoto = document.createDocumentFragment();
   var cardPhotos = cardElement.querySelector('.popup__photos');
@@ -279,7 +296,7 @@ var renderCard = function (object) {
   cardElement.querySelector('.popup__type').textContent = getTranslate(object);
   cardElement.querySelector('.popup__text--capacity').textContent = object.offer.rooms + ' комнаты для ' + object.offer.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + object.offer.checkin + ', выезд до ' + object.offer.checkout;
-  cardElement.querySelector('.popup__features').textContent = object.offer.features;
+  featuresTextToIcon(object.offer.features, cardElement);
   cardElement.querySelector('.popup__description').textContent = object.offer.descriprion;
   cardElement.querySelector('.popup__avatar').setAttribute('src', object.author.avatar);
   renderPhotos(object.offer.photos, cardElement);
