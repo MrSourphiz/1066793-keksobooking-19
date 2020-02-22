@@ -152,6 +152,7 @@ var showCard = function (evt, array) {
 
     target.classList.add('map__pin--active');
     findDesiredPin(array);
+    getClose();
   }
 };
 
@@ -160,6 +161,16 @@ var closeCard = function () {
   if (map.contains(mapCard)) {
     map.removeChild(mapCard);
   }
+};
+
+var getClose = function () {
+  var closeButton = map.querySelector('.popup__close');
+  closeButton.addEventListener('mouseup', closeCard);
+  closeButton.addEventListener('keydown', function (pressEvt) {
+    if (pressEvt.key === ENTER_KEY) {
+      closeCard();
+    }
+  });
 };
 
 var findDesiredPin = function (array) {
@@ -370,16 +381,8 @@ selectTimeOut.addEventListener('change', function () {
 });
 selectRoomNumber.addEventListener('change', syncCapacity);
 
-mapPinsElement.addEventListener('click', function (evt) {
+mapPinsElement.addEventListener('mouseup', function (evt) {
   showCard(evt, placeArr);
-
-  var closeButton = document.querySelector('.popup__close');
-  closeButton.addEventListener('click', closeCard);
-  closeButton.addEventListener('keydown', function (pressEvt) {
-    if (pressEvt.key === ENTER_KEY) {
-      closeCard();
-    }
-  });
 });
 
 mapPinsElement.addEventListener('keydown', function (pressEvt, evt) {
@@ -393,5 +396,3 @@ document.addEventListener('keydown', function (evt) {
     closeCard();
   }
 });
-
-
