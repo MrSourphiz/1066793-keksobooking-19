@@ -6,7 +6,6 @@ var PIN_X = 31;
 var PIN_Y = 84;
 
 var MIN_TITLE_LENGTH = 30;
-var GUEST_COUNT = 4;
 
 var PLACE_TYPE = ['palace', 'flat', 'house', 'bungalo'];
 var PLACE_TIME = ['12:00', '13:00', '14:00'];
@@ -14,22 +13,10 @@ var PLACE_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'co
 var PLACE_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 var capcityRatio = {
-  1: {
-    optionValue: 1,
-    optionIndex: [2]
-  },
-  2: {
-    optionValue: 2,
-    optionIndex: [1, 2]
-  },
-  3: {
-    optionValue: 2,
-    optionIndex: [0, 1, 2]
-  },
-  100: {
-    optionValue: 0,
-    optionIndex: [3]
-  }
+  1: ['1'],
+  2: ['1', '2'],
+  3: ['1', '2', '3'],
+  100: ['0']
 };
 
 var time = {
@@ -112,23 +99,21 @@ var syncTime = function (object1, object2) {
   object2.value = sync;
 };
 
-var clearCapacity = function () {
-  for (var i = 0; i < GUEST_COUNT; i++) {
-    capacityOptions[i].classList.add('hidden');
-    if (capacityOptions[i].selected === true) {
-      capacityOptions[i].removeAttribute('selected');
+var syncCapacity = function () {
+  var selectRoom = capcityRatio[selectRoomNumber.value];
+  if (selectRoomNumber.value === '100') {
+    selectCapacity.value = '0';
+  } else {
+    selectCapacity.value = selectRoomNumber.value;
+  }
+  for (var i = 0; i < capacityOptions.length; i++) {
+    var option = capacityOptions[i];
+    option.disabled = true;
+
+    if (selectRoom.indexOf(option.value) !== -1) {
+      option.disabled = false;
     }
   }
-};
-
-var syncCapacity = function () {
-  clearCapacity();
-  var indexArray = capcityRatio[selectRoomNumber.value].optionIndex;
-  for (var i = 0; i < indexArray.length; i++) {
-    var optionIndex = indexArray[i];
-    capacityOptions[optionIndex].classList.remove('hidden');
-  }
-  selectCapacity.value = capcityRatio[selectRoomNumber.value].optionValue;
 };
 
 var showCard = function (evt, array) {
@@ -379,6 +364,9 @@ selectTimeIn.addEventListener('change', function () {
 selectTimeOut.addEventListener('change', function () {
   syncTime(selectTimeOut, selectTimeIn);
 });
+
+syncCapacity();
+
 selectRoomNumber.addEventListener('change', syncCapacity);
 
 mapPinsElement.addEventListener('mouseup', function (evt) {
