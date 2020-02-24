@@ -59,7 +59,7 @@
     cardElement.querySelector('.popup__text--capacity').textContent = object.offer.rooms + ' комнаты для ' + object.offer.guests + ' гостей';
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + object.offer.checkin + ', выезд до ' + object.offer.checkout;
     featuresTextToIcon(object.offer.features, cardElement);
-    cardElement.querySelector('.popup__description').textContent = object.offer.descriprion;
+    cardElement.querySelector('.popup__description').textContent = object.offer.description;
     cardElement.querySelector('.popup__avatar').setAttribute('src', object.author.avatar);
     renderPhotos(object.offer.photos, cardElement);
 

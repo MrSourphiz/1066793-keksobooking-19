@@ -61,7 +61,7 @@
           checkin: getRandomElement(window.constants.PLACE_TIME),
           checkout: getRandomElement(window.constants.PLACE_TIME),
           features: generateRandomArr(window.constants.PLACE_FEATURES),
-          descriprion: 'строка с описанием',
+          description: 'строка с описанием',
           photos: generateRandomArr(window.constants.PLACE_PHOTOS)
         },
         location: {
