@@ -124,7 +124,7 @@
     }
   });
 
-  mapPinsElement.addEventListener('mouseup', function (evt) {
+  mapPinsElement.addEventListener('mousedown', function (evt) {
     showCard(evt, placeArr);
   });
 
@@ -139,4 +139,8 @@
       closeCard();
     }
   });
+
+  window.map = {
+    coords: getCoords
+  };
 })();
