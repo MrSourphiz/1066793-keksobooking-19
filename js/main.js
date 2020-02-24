@@ -357,6 +357,9 @@ inputTitle.addEventListener('input', function (evt) {
   }
 });
 
+getMinPrice();
+syncCapacity();
+
 selectType.addEventListener('change', getMinPrice);
 selectTimeIn.addEventListener('change', function () {
   syncTime(selectTimeIn, selectTimeOut);
@@ -364,8 +367,6 @@ selectTimeIn.addEventListener('change', function () {
 selectTimeOut.addEventListener('change', function () {
   syncTime(selectTimeOut, selectTimeIn);
 });
-
-syncCapacity();
 
 selectRoomNumber.addEventListener('change', syncCapacity);
 
