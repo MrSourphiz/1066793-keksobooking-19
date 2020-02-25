@@ -2,6 +2,8 @@
 
 (function () {
   var adForm = document.querySelector('.ad-form');
+  var adFormSubmitButton = adForm.querySelector('.ad-form__submit');
+  var adFormResetButton = adForm.querySelector('.ad-form__reset');
   var inputTitle = adForm.querySelector('#title');
 
   var selectType = adForm.querySelector('#type');
@@ -60,6 +62,41 @@
     }
   };
 
+  var successHandler = function () {
+    var templateSuccess = document.querySelector('#success').content.querySelector('.success');
+    var successElement = templateSuccess.cloneNode(true);
+    var main = document.querySelector('main');
+    main.appendChild(successElement);
+
+    window.map.reset();
+  };
+
+  var errorHandler = function () {
+    var templateError = document.querySelector('#error').content.querySelector('.error');
+    var errorElement = templateError.cloneNode(true);
+    var main = document.querySelector('main');
+
+    main.appendChild(errorElement);
+  };
+
+  var removeMessage = function () {
+    var main = document.querySelector('main');
+    var successMessage = document.querySelector('.success');
+    var errorMessage = document.querySelector('.error');
+    if (main.contains(successMessage)) {
+      main.removeChild(successMessage);
+    } else if (main.contains(errorMessage)) {
+      main.removeChild(errorMessage);
+    }
+  };
+
+  var resetForm = function () {
+    adForm.reset();
+    getMinPrice();
+    syncCapacity();
+    window.map.coords();
+  };
+
   inputTitle.addEventListener('invalid', function (evt) {
     evt.preventDefault();
     if (inputTitle.validity.tooShort) {
@@ -96,4 +133,33 @@
   });
 
   selectRoomNumber.addEventListener('change', syncCapacity);
+
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(adForm), successHandler, errorHandler);
+  });
+
+  adFormSubmitButton.addEventListener('keydown', function (evt) {
+    if (evt.key === window.constants.ENTER_KEY) {
+      window.backend.save(new FormData(adForm), successHandler, errorHandler);
+    }
+  });
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.key === window.constants.ESC_KEY) {
+      removeMessage();
+    }
+  });
+
+  document.addEventListener('click', removeMessage);
+
+  adFormResetButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    resetForm();
+  });
+
+  window.form = {
+    price: getMinPrice,
+    capacity: syncCapacity
+  };
 })();

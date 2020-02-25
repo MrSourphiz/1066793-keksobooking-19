@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var map = document.querySelector('.map');
+  var mapPinsElement = map.querySelector('.map__pins');
   var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 
   var renderPlace = function (object) {
@@ -13,7 +15,15 @@
     return placeElement;
   };
 
+  var removePins = function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    for (var i = 0; i < pins.length; i++) {
+      mapPinsElement.removeChild(pins[i]);
+    }
+  };
+
   window.pin = {
-    create: renderPlace
+    create: renderPlace,
+    remove: removePins
   };
 })();

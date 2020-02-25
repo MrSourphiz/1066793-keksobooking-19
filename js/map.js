@@ -18,7 +18,22 @@
     inputAddress.setAttribute('readonly', 'readonly');
     enabledFilters(mapFiltersElement);
     enabledFilters(adFormFieldsetList);
+    window.form.price();
+    window.form.capacity();
     adForm.classList.remove('ad-form--disabled');
+  };
+
+  var resetPage = function () {
+    map.classList.add('map--faded');
+    adForm.reset();
+    adForm.classList.add('ad-form--disabled');
+    mapPinMain.style.left = '570px';
+    mapPinMain.style.top = '375px';
+    window.show.closeCard();
+    window.pin.remove();
+    disabledFilters(mapFiltersElement);
+    disabledFilters(adFormFieldsetList);
+    getCoords();
   };
 
   var getCoords = function () {
@@ -67,6 +82,7 @@
     node.style.left = 0;
     node.style.right = 0;
     node.style.fontSize = '30px';
+    node.style.color = 'red';
 
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
@@ -93,6 +109,7 @@
   });
 
   window.map = {
-    coords: getCoords
+    coords: getCoords,
+    reset: resetPage
   };
 })();
