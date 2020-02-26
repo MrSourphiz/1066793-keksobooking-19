@@ -12,6 +12,8 @@
   var inputAddress = adForm.querySelector('#address');
   var adFormFieldsetList = adForm.querySelectorAll('fieldset');
 
+  var mapPinMainClickCounter = 0;
+
   var inActiveState = function () {
     map.classList.remove('map--faded');
     window.backend.load(successHandler, errorHandler);
@@ -91,20 +93,18 @@
   disabledFilters(mapFiltersElement);
   disabledFilters(adFormFieldsetList);
 
-  mapPinMain.addEventListener('mousedown', function (evt) {
-    if (typeof evt === 'object') {
-      switch (evt.button) {
-        case 0:
-          inActiveState();
-          getCoords();
-          break;
-      }
+  mapPinMain.addEventListener('mousedown', function () {
+    if (mapPinMainClickCounter < 1) {
+      inActiveState();
+      getCoords();
     }
+    mapPinMainClickCounter++;
   });
 
   mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.key === window.constants.ENTER_KEY) {
       inActiveState();
+      getCoords();
     }
   });
 
