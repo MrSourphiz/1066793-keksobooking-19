@@ -53,7 +53,7 @@
         },
         offer: {
           title: 'заголовок предложения',
-          addres: locationX + ', ' + locationY,
+          address: locationX + ', ' + locationY,
           price: generateRandomNumber(500, 3200),
           type: getRandomElement(window.constants.PLACE_TYPE),
           rooms: generateRandomNumber(1, 4),

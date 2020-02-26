@@ -53,7 +53,7 @@
   var renderCard = function (object) {
     var cardElement = templateCard.cloneNode(true);
     cardElement.querySelector('.popup__title').textContent = object.offer.title;
-    cardElement.querySelector('.popup__text--address').textContent = object.offer.addres;
+    cardElement.querySelector('.popup__text--address').textContent = object.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = object.offer.price + '₽/за ночь';
     cardElement.querySelector('.popup__type').textContent = getTranslate(object);
     cardElement.querySelector('.popup__text--capacity').textContent = object.offer.rooms + ' комнаты для ' + object.offer.guests + ' гостей';

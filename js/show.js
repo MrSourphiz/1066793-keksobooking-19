@@ -67,6 +67,7 @@
   });
 
   window.show = {
-    card: showCard
+    card: showCard,
+    closeCard: closeCard
   };
 })();
