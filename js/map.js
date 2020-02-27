@@ -12,7 +12,11 @@
   var inputAddress = adForm.querySelector('#address');
   var adFormFieldsetList = adForm.querySelectorAll('fieldset');
 
+  var type = mapFilters.querySelector('#housing-type');
+
   var mapPinMainClickCounter = 0;
+
+  var dataArray = [];
 
   var inActiveState = function () {
     map.classList.remove('map--faded');
@@ -59,20 +63,28 @@
   };
 
   var successHandler = function (array) {
-    var fragment = document.createDocumentFragment();
+    getDataPin(array);
+    type.addEventListener('change', function () {
+      window.pin.remove();
+      getDataPin(array);
+      window.show.closeCard();
+    });
+  };
 
-    for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(window.pin.create(array[i]));
-    }
-    mapPinsElement.appendChild(fragment);
+  var getDataPin = function (array) {
+    dataArray = array;
+
+    var filteredArray = window.filter.byType(dataArray);
+
+    window.pin.post(filteredArray);
 
     mapPinsElement.addEventListener('mousedown', function (evt) {
-      window.show.card(evt, array);
+      window.show.card(evt, filteredArray);
     });
 
     mapPinsElement.addEventListener('keydown', function (evt) {
       if (evt.key === window.constants.ENTER_KEY) {
-        window.show.card(evt, array);
+        window.show.card(evt, filteredArray);
       }
     });
   };
