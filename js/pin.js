@@ -21,6 +21,16 @@
       fragment.appendChild(renderPlace(array[i]));
     }
     mapPinsElement.appendChild(fragment);
+
+    mapPinsElement.addEventListener('mousedown', function (evt) {
+      window.show.card(evt, array);
+    });
+
+    mapPinsElement.addEventListener('keydown', function (evt) {
+      if (evt.key === window.constants.ENTER_KEY) {
+        window.show.card(evt, array);
+      }
+    });
   };
 
   var removePins = function () {

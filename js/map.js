@@ -3,7 +3,6 @@
 (function () {
   var map = document.querySelector('.map');
   var mapPinMain = map.querySelector('.map__pin--main');
-  var mapPinsElement = map.querySelector('.map__pins');
 
   var mapFilters = map.querySelector('.map__filters');
   var mapFiltersElement = mapFilters.querySelectorAll('.map__filter');
@@ -63,30 +62,19 @@
   };
 
   var successHandler = function (array) {
-    getDataPin(array);
+    dataArray = array.slice();
+    getDataPin(dataArray);
     type.addEventListener('change', function () {
       window.pin.remove();
-      getDataPin(array);
+      getDataPin(dataArray);
       window.show.closeCard();
     });
   };
 
   var getDataPin = function (array) {
-    dataArray = array;
-
-    var filteredArray = window.filter.byType(dataArray);
+    var filteredArray = window.filter.byType(array);
 
     window.pin.post(filteredArray);
-
-    mapPinsElement.addEventListener('mousedown', function (evt) {
-      window.show.card(evt, filteredArray);
-    });
-
-    mapPinsElement.addEventListener('keydown', function (evt) {
-      if (evt.key === window.constants.ENTER_KEY) {
-        window.show.card(evt, filteredArray);
-      }
-    });
   };
 
   var errorHandler = function (errorMessage) {
