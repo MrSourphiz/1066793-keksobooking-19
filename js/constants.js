@@ -11,6 +11,9 @@
 
   var PIN_QUANTITY = 5;
 
+  var PRICE_LOW_LIMIT = 10000;
+  var PRICE_HIGH_LIMIT = 50000;
+
   var PLACE_TYPE = ['palace', 'flat', 'house', 'bungalo'];
   var PLACE_TIME = ['12:00', '13:00', '14:00'];
   var PLACE_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -24,6 +27,8 @@
     PIN_Y: PIN_Y,
     MIN_TITLE_LENGTH: MIN_TITLE_LENGTH,
     PIN_QUANTITY: PIN_QUANTITY,
+    PRICE_LOW_LIMIT: PRICE_LOW_LIMIT,
+    PRICE_HIGH_LIMIT: PRICE_HIGH_LIMIT,
     PLACE_TYPE: PLACE_TYPE,
     PLACE_TIME: PLACE_TIME,
     PLACE_FEATURES: PLACE_FEATURES,
