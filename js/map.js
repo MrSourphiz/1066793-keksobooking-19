@@ -3,7 +3,6 @@
 (function () {
   var map = document.querySelector('.map');
   var mapPinMain = map.querySelector('.map__pin--main');
-  var mapPinsElement = map.querySelector('.map__pins');
 
   var mapFilters = map.querySelector('.map__filters');
   var mapFiltersElement = mapFilters.querySelectorAll('.map__filter');
@@ -11,6 +10,12 @@
   var adForm = document.querySelector('.ad-form');
   var inputAddress = adForm.querySelector('#address');
   var adFormFieldsetList = adForm.querySelectorAll('fieldset');
+
+  var type = mapFilters.querySelector('#housing-type');
+
+  var mapPinMainClickCounter = 0;
+
+  var dataArray = [];
 
   var inActiveState = function () {
     map.classList.remove('map--faded');
@@ -57,22 +62,19 @@
   };
 
   var successHandler = function (array) {
-    var fragment = document.createDocumentFragment();
-
-    for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(window.pin.create(array[i]));
-    }
-    mapPinsElement.appendChild(fragment);
-
-    mapPinsElement.addEventListener('mousedown', function (evt) {
-      window.show.card(evt, array);
+    dataArray = array.slice();
+    getDataPin(dataArray);
+    type.addEventListener('change', function () {
+      window.pin.remove();
+      getDataPin(dataArray);
+      window.show.closeCard();
     });
+  };
 
-    mapPinsElement.addEventListener('keydown', function (evt) {
-      if (evt.key === window.constants.ENTER_KEY) {
-        window.show.card(evt, array);
-      }
-    });
+  var getDataPin = function (array) {
+    var filteredArray = window.filter.byType(array);
+
+    window.pin.post(filteredArray);
   };
 
   var errorHandler = function (errorMessage) {
@@ -91,20 +93,18 @@
   disabledFilters(mapFiltersElement);
   disabledFilters(adFormFieldsetList);
 
-  mapPinMain.addEventListener('mousedown', function (evt) {
-    if (typeof evt === 'object') {
-      switch (evt.button) {
-        case 0:
-          inActiveState();
-          getCoords();
-          break;
-      }
+  mapPinMain.addEventListener('mousedown', function () {
+    if (mapPinMainClickCounter < 1) {
+      inActiveState();
+      getCoords();
     }
+    mapPinMainClickCounter++;
   });
 
   mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.key === window.constants.ENTER_KEY) {
       inActiveState();
+      getCoords();
     }
   });
 
