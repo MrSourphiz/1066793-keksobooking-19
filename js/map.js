@@ -11,8 +11,6 @@
   var inputAddress = adForm.querySelector('#address');
   var adFormFieldsetList = adForm.querySelectorAll('fieldset');
 
-  var type = mapFilters.querySelector('#housing-type');
-
   var mapPinMainClickCounter = 0;
 
   var dataArray = [];
@@ -64,7 +62,8 @@
   var successHandler = function (array) {
     dataArray = array.slice();
     getDataPin(dataArray);
-    type.addEventListener('change', function () {
+
+    window.filter.change(function () {
       window.pin.remove();
       getDataPin(dataArray);
       window.show.closeCard();
