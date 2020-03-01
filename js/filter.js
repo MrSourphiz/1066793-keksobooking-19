@@ -31,11 +31,11 @@
   };
 
   var filteredByRooms = function (value, dataArray) {
-    return value === 'any' || dataArray.offer.rooms === value;
+    return value === 'any' || dataArray.offer.rooms.toString() === value;
   };
 
   var filteredByGuests = function (value, dataArray) {
-    return value === 'any' || dataArray.offer.guests === value;
+    return value === 'any' || dataArray.offer.guests.toString() === value;
   };
 
   window.filter = {
