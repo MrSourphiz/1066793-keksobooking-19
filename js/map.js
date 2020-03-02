@@ -63,11 +63,11 @@
     dataArray = array.slice();
     getDataPin(dataArray);
 
-    window.filter.change(function () {
+    window.filter.change(window.debounce(function () {
       window.pin.remove();
       getDataPin(dataArray);
       window.show.closeCard();
-    });
+    }));
   };
 
   var getDataPin = function (array) {
