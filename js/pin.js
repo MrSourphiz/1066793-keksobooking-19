@@ -7,9 +7,14 @@
   var fragment = document.createDocumentFragment();
 
   var renderPlace = function (object) {
+    var startCoords = {
+      x: object.location.x,
+      y: object.location.y
+    };
+    var newCoords = window.movement.limit(startCoords);
     var placeElement = templatePin.cloneNode(true);
-    placeElement.style.left = (object.location.x + 40) + 'px';
-    placeElement.style.top = (object.location.y + 40) + 'px';
+    placeElement.style.left = newCoords.x + 'px';
+    placeElement.style.top = newCoords.y + 'px';
     placeElement.querySelector('img').src = object.author.avatar;
     placeElement.querySelector('img').alt = object.offer.title;
 

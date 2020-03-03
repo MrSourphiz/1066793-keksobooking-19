@@ -82,4 +82,8 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  window.movement = {
+    limit: limitCoords
+  };
 })();

@@ -13,12 +13,13 @@
 
 
   var filter = function (dataArray) {
-    if (dataArray.length > window.constants.PIN_QUANTITY) {
-      dataArray.length = window.constants.PIN_QUANTITY;
-    }
     var result = dataArray.filter(function (data) {
       return filteredByType(type.value, data) && filteredByPrice(price.value, data) && filteredByRooms(rooms.value, data) && filteredByGuests(guests.value, data) && filteredByFeatures(data);
     });
+
+    if (result.length > window.constants.PIN_QUANTITY) {
+      result = filteredByPinQuantity(result);
+    }
 
     return result;
   };
@@ -64,6 +65,11 @@
     return checkedValue.every(function (feature) {
       return dataArray.offer.features.includes(feature);
     });
+  };
+
+  var filteredByPinQuantity = function (dataArray) {
+    var filteredArray = dataArray.slice(0, window.constants.PIN_QUANTITY);
+    return filteredArray;
   };
 
   window.filter = {
