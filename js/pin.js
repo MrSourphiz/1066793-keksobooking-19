@@ -7,12 +7,14 @@
   var fragment = document.createDocumentFragment();
 
   var renderPlace = function (object) {
+    var placeElement = templatePin.cloneNode(true);
+
     var startCoords = {
       x: object.location.x,
       y: object.location.y
     };
     var newCoords = window.movement.limit(startCoords);
-    var placeElement = templatePin.cloneNode(true);
+
     placeElement.style.left = newCoords.x + 'px';
     placeElement.style.top = newCoords.y + 'px';
     placeElement.querySelector('img').src = object.author.avatar;
@@ -22,20 +24,28 @@
   };
 
   var postOnMap = function (array) {
+    var pinList = [];
     for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(renderPlace(array[i]));
+      var currentPin = renderPlace(array[i]);
+      fragment.appendChild(currentPin);
+
+      pinList.push(currentPin);
     }
     mapPinsElement.appendChild(fragment);
 
-    mapPinsElement.addEventListener('mousedown', function (evt) {
-      window.show.card(evt, array);
-    });
+    for (var j = 0; j < pinList.length; j++) {
+      var pinListElement = pinList[j];
 
-    mapPinsElement.addEventListener('keydown', function (evt) {
-      if (evt.key === window.constants.ENTER_KEY) {
+      pinListElement.addEventListener('click', function (evt) {
         window.show.card(evt, array);
-      }
-    });
+      });
+
+      pinListElement.addEventListener('keydown', function (evt) {
+        if (evt.key === window.constants.ENTER_KEY) {
+          window.show.card(evt, array);
+        }
+      });
+    }
   };
 
   var removePins = function () {
