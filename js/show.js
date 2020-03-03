@@ -4,20 +4,6 @@
   var map = document.querySelector('.map');
   var mapPinsElement = map.querySelector('.map__pins');
 
-  var findDesiredPin = function (placeArr) {
-    var fragment = document.createDocumentFragment();
-    var mapPinsElementList = mapPinsElement.querySelectorAll('.map__pin');
-    var desiredPinIndex;
-    for (var i = 1; i <= placeArr.length; i++) {
-      if (mapPinsElementList[i].getAttribute('class') === 'map__pin map__pin--active') {
-        desiredPinIndex = i - 1;
-      }
-    }
-
-    fragment.appendChild(window.card.get(placeArr[desiredPinIndex]));
-    map.appendChild(fragment);
-  };
-
   var closeCard = function () {
     var mapCard = map.querySelector('.map__card');
     if (map.contains(mapCard)) {
@@ -58,6 +44,20 @@
       findDesiredPin(placeArr);
       getClose();
     }
+  };
+
+  var findDesiredPin = function (placeArr) {
+    var fragment = document.createDocumentFragment();
+    var mapPinsElementList = mapPinsElement.querySelectorAll('.map__pin');
+    var desiredPinIndex;
+    for (var i = 1; i <= placeArr.length; i++) {
+      if (mapPinsElementList[i].getAttribute('class') === 'map__pin map__pin--active') {
+        desiredPinIndex = i - 1;
+      }
+    }
+
+    fragment.appendChild(window.card.get(placeArr[desiredPinIndex]));
+    map.appendChild(fragment);
   };
 
   document.addEventListener('keydown', function (evt) {
