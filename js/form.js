@@ -4,8 +4,14 @@
   var adForm = document.querySelector('.ad-form');
   var adFormSubmitButton = adForm.querySelector('.ad-form__submit');
   var adFormResetButton = adForm.querySelector('.ad-form__reset');
-  var inputTitle = adForm.querySelector('#title');
 
+  var avatarContainer = adForm.querySelector('.ad-form-header__upload');
+  var avatarPreview = avatarContainer.querySelector('img');
+
+  var photoContainer = adForm.querySelector('.ad-form__photo-container');
+  var photoPreview = photoContainer.querySelector('.ad-form__photo');
+
+  var inputTitle = adForm.querySelector('#title');
   var selectType = adForm.querySelector('#type');
   var selectPrice = adForm.querySelector('#price');
   var selectTimeIn = adForm.querySelector('#timein');
@@ -90,8 +96,17 @@
     }
   };
 
+  var removePhoto = function () {
+    avatarPreview.src = 'img/muffin-grey.svg';
+    var photoList = photoPreview.querySelectorAll('img');
+    for (var i = 0; i < photoList.length; i++) {
+      photoPreview.removeChild(photoList[i]);
+    }
+  };
+
   var resetForm = function () {
     adForm.reset();
+    removePhoto();
     getMinPrice();
     syncCapacity();
     window.map.coords();

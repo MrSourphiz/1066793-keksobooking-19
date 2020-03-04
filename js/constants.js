@@ -16,6 +16,10 @@
 
   var DEBOUNCE_INTERVAL = 500;
 
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var FILE_WIDTH = 70;
+  var FILE_HEIGHT = 70;
+
   var PLACE_TYPE = ['palace', 'flat', 'house', 'bungalo'];
   var PLACE_TIME = ['12:00', '13:00', '14:00'];
   var PLACE_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -32,6 +36,9 @@
     PRICE_LOW_LIMIT: PRICE_LOW_LIMIT,
     PRICE_HIGH_LIMIT: PRICE_HIGH_LIMIT,
     DEBOUNCE_INTERVAL: DEBOUNCE_INTERVAL,
+    FILE_TYPES: FILE_TYPES,
+    FILE_WIDTH: FILE_WIDTH,
+    FILE_HEIGHT: FILE_HEIGHT,
     PLACE_TYPE: PLACE_TYPE,
     PLACE_TIME: PLACE_TIME,
     PLACE_FEATURES: PLACE_FEATURES,
