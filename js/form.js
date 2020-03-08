@@ -105,11 +105,10 @@
   };
 
   var resetForm = function () {
-    adForm.reset();
     removePhoto();
     getMinPrice();
     syncCapacity();
-    window.map.coords();
+    window.map.reset();
   };
 
   inputTitle.addEventListener('invalid', function () {

@@ -11,8 +11,6 @@
   var inputAddress = adForm.querySelector('#address');
   var adFormFieldsetList = adForm.querySelectorAll('fieldset');
 
-  var mapPinMainClickCounter = 0;
-
   var dataArray = [];
 
   var inActiveState = function () {
@@ -34,6 +32,7 @@
     mapPinMain.style.top = '375px';
     window.show.closeCard();
     window.pin.remove();
+    window.filter.clear();
     disabledFilters(mapFiltersElement);
     disabledFilters(adFormFieldsetList);
     getCoords();
@@ -92,12 +91,9 @@
   disabledFilters(mapFiltersElement);
   disabledFilters(adFormFieldsetList);
 
-  mapPinMain.addEventListener('mousedown', function () {
-    if (mapPinMainClickCounter < 1) {
-      inActiveState();
-      getCoords();
-    }
-    mapPinMainClickCounter++;
+  mapPinMain.addEventListener('click', function () {
+    inActiveState();
+    getCoords();
   });
 
   mapPinMain.addEventListener('keydown', function (evt) {
