@@ -104,13 +104,6 @@
     }
   };
 
-  var resetForm = function () {
-    removePhoto();
-    getMinPrice();
-    syncCapacity();
-    window.map.reset();
-  };
-
   inputTitle.addEventListener('invalid', function () {
     if (inputTitle.validity.tooShort) {
       inputTitle.setCustomValidity('Заголовок объявления должен состоять минимум из 30-ти символов');
@@ -168,11 +161,12 @@
 
   adFormResetButton.addEventListener('click', function (evt) {
     evt.preventDefault();
-    resetForm();
+    window.map.reset();
   });
 
   window.form = {
     price: getMinPrice,
-    capacity: syncCapacity
+    capacity: syncCapacity,
+    remove: removePhoto
   };
 })();

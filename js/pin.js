@@ -37,12 +37,12 @@
       var pinListElement = pinList[j];
 
       pinListElement.addEventListener('click', function (evt) {
-        window.show.card(evt, array);
+        window.showCard.use(evt, array);
       });
 
       pinListElement.addEventListener('keydown', function (evt) {
         if (evt.key === window.constants.ENTER_KEY) {
-          window.show.card(evt, array);
+          window.showCard.use(evt, array);
         }
       });
     }

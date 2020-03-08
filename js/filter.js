@@ -91,7 +91,7 @@
   };
 
   window.filter = {
-    byType: filter,
+    use: filter,
     change: changeFilter,
     clear: clearFilter
   };
