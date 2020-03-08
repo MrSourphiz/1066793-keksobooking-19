@@ -112,8 +112,7 @@
     window.map.coords();
   };
 
-  inputTitle.addEventListener('invalid', function (evt) {
-    evt.preventDefault();
+  inputTitle.addEventListener('invalid', function () {
     if (inputTitle.validity.tooShort) {
       inputTitle.setCustomValidity('Заголовок объявления должен состоять минимум из 30-ти символов');
     } else if (inputTitle.validity.tooLong) {
