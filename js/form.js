@@ -4,8 +4,14 @@
   var adForm = document.querySelector('.ad-form');
   var adFormSubmitButton = adForm.querySelector('.ad-form__submit');
   var adFormResetButton = adForm.querySelector('.ad-form__reset');
-  var inputTitle = adForm.querySelector('#title');
 
+  var avatarContainer = adForm.querySelector('.ad-form-header__upload');
+  var avatarPreview = avatarContainer.querySelector('img');
+
+  var photoContainer = adForm.querySelector('.ad-form__photo-container');
+  var photoPreview = photoContainer.querySelector('.ad-form__photo');
+
+  var inputTitle = adForm.querySelector('#title');
   var selectType = adForm.querySelector('#type');
   var selectPrice = adForm.querySelector('#price');
   var selectTimeIn = adForm.querySelector('#timein');
@@ -90,15 +96,15 @@
     }
   };
 
-  var resetForm = function () {
-    adForm.reset();
-    getMinPrice();
-    syncCapacity();
-    window.map.coords();
+  var removePhoto = function () {
+    avatarPreview.src = 'img/muffin-grey.svg';
+    var photoList = photoPreview.querySelectorAll('img');
+    for (var i = 0; i < photoList.length; i++) {
+      photoPreview.removeChild(photoList[i]);
+    }
   };
 
-  inputTitle.addEventListener('invalid', function (evt) {
-    evt.preventDefault();
+  inputTitle.addEventListener('invalid', function () {
     if (inputTitle.validity.tooShort) {
       inputTitle.setCustomValidity('Заголовок объявления должен состоять минимум из 30-ти символов');
     } else if (inputTitle.validity.tooLong) {
@@ -155,11 +161,12 @@
 
   adFormResetButton.addEventListener('click', function (evt) {
     evt.preventDefault();
-    resetForm();
+    window.map.reset();
   });
 
   window.form = {
     price: getMinPrice,
-    capacity: syncCapacity
+    capacity: syncCapacity,
+    remove: removePhoto
   };
 })();

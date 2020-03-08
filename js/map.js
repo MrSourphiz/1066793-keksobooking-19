@@ -11,8 +11,6 @@
   var inputAddress = adForm.querySelector('#address');
   var adFormFieldsetList = adForm.querySelectorAll('fieldset');
 
-  var mapPinMainClickCounter = 0;
-
   var dataArray = [];
 
   var inActiveState = function () {
@@ -30,10 +28,14 @@
     map.classList.add('map--faded');
     adForm.reset();
     adForm.classList.add('ad-form--disabled');
+    window.form.price();
+    window.form.capacity();
+    window.form.remove();
     mapPinMain.style.left = '570px';
     mapPinMain.style.top = '375px';
-    window.show.closeCard();
+    window.showCard.close();
     window.pin.remove();
+    window.filter.clear();
     disabledFilters(mapFiltersElement);
     disabledFilters(adFormFieldsetList);
     getCoords();
@@ -66,12 +68,12 @@
     window.filter.change(window.debounce(function () {
       window.pin.remove();
       getDataPin(dataArray);
-      window.show.closeCard();
+      window.showCard.close();
     }));
   };
 
   var getDataPin = function (array) {
-    var filteredArray = window.filter.byType(array);
+    var filteredArray = window.filter.use(array);
 
     window.pin.post(filteredArray);
   };
@@ -92,12 +94,9 @@
   disabledFilters(mapFiltersElement);
   disabledFilters(adFormFieldsetList);
 
-  mapPinMain.addEventListener('mousedown', function () {
-    if (mapPinMainClickCounter < 1) {
-      inActiveState();
-      getCoords();
-    }
-    mapPinMainClickCounter++;
+  mapPinMain.addEventListener('click', function () {
+    inActiveState();
+    getCoords();
   });
 
   mapPinMain.addEventListener('keydown', function (evt) {

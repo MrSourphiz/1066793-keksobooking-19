@@ -5,6 +5,9 @@
 
   var mapFilters = map.querySelector('.map__filters');
 
+  var selectedFiltersList = mapFilters.querySelectorAll('[selected]');
+
+
   var type = mapFilters.querySelector('#housing-type');
   var rooms = mapFilters.querySelector('#housing-rooms');
   var guests = mapFilters.querySelector('#housing-guests');
@@ -72,9 +75,25 @@
     return filteredArray;
   };
 
+  var clearFilter = function () {
+    var mapFiltersList = mapFilters.querySelectorAll('.map__filter');
+    var arrayOfMapFiletrsList = Array.from(mapFiltersList);
+
+    var checkedFeatures = features.querySelectorAll('input[type=checkbox]:checked');
+
+    arrayOfMapFiletrsList.forEach(function (elem, index) {
+      selectedFiltersList[index].selected = true;
+    });
+
+    checkedFeatures.forEach(function (elem, index) {
+      checkedFeatures[index].checked = false;
+    });
+  };
+
   window.filter = {
-    byType: filter,
-    change: changeFilter
+    use: filter,
+    change: changeFilter,
+    clear: clearFilter
   };
 
 })();

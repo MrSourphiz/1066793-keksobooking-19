@@ -66,8 +66,8 @@
     }
   });
 
-  window.show = {
-    card: showCard,
-    closeCard: closeCard
+  window.showCard = {
+    use: showCard,
+    close: closeCard
   };
 })();
