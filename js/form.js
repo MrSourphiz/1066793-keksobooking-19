@@ -53,18 +53,11 @@
 
   var syncCapacity = function () {
     var selectRoom = capcityRatio[selectRoomNumber.value];
-    if (selectRoomNumber.value === '100') {
-      selectCapacity.value = '0';
-    } else {
-      selectCapacity.value = selectRoomNumber.value;
-    }
+    selectCapacity.value = (selectRoomNumber.value === '100') ? '0' : selectRoomNumber.value;
+
     for (var i = 0; i < capacityOptions.length; i++) {
       var option = capacityOptions[i];
-      option.disabled = true;
-
-      if (selectRoom.indexOf(option.value) !== -1) {
-        option.disabled = false;
-      }
+      option.disabled = selectRoom.indexOf(option.value) === -1;
     }
   };
 

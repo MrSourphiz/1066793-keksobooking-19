@@ -61,12 +61,8 @@
   var filteredByFeatures = function (dataArray) {
     var checkedFeatures = features.querySelectorAll('input[type=checkbox]:checked');
     var arrayOfCheckedFeatures = Array.from(checkedFeatures);
-    var checkedValue = arrayOfCheckedFeatures.map(function (feature) {
-      return feature.value;
-    });
-
-    return checkedValue.every(function (feature) {
-      return dataArray.offer.features.includes(feature);
+    return arrayOfCheckedFeatures.every(function (feature) {
+      return dataArray.offer.features.includes(feature.value);
     });
   };
 
