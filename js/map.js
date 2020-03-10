@@ -79,30 +79,34 @@
   };
 
   var errorHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: black; border: 5px solid red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-    node.style.color = 'red';
+    var noticeElement = document.createElement('div');
+    noticeElement.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: black; border: 5px solid red;';
+    noticeElement.style.position = 'absolute';
+    noticeElement.style.left = 0;
+    noticeElement.style.right = 0;
+    noticeElement.style.fontSize = '30px';
+    noticeElement.style.color = 'red';
 
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+    noticeElement.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', noticeElement);
   };
 
   disabledFilters(mapFiltersElement);
   disabledFilters(adFormFieldsetList);
 
   mapPinMain.addEventListener('click', function () {
-    inActiveState();
-    getCoords();
+    if (map.classList.contains('map--faded')) {
+      inActiveState();
+      getCoords();
+    }
   });
 
   mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.key === window.constants.ENTER_KEY) {
-      inActiveState();
-      getCoords();
+      if (map.classList.contains('map--faded')) {
+        inActiveState();
+        getCoords();
+      }
     }
   });
 

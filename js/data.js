@@ -1,6 +1,19 @@
 'use strict';
 
 (function () {
+  var EXAMPLE_AD_MIN_PRICE = 0;
+  var EXAMPLE_AD_MAX_PRICE = 15000;
+
+  var EXAMPLE_AD_AVATAR_MIN_NUMBER = 1;
+  var EXAMPLE_AD_AVATAR_MAX_NUMBER = 8;
+
+  var EXAMPLE_AD_ROOMS_MIN_QUANTITY = 1;
+  var EXAMPLE_AD_ROOMS_MAX_QUANTITY = 4;
+  var EXAMPLE_AD_GUESTS_MIN_QUANTITY = 1;
+  var EXAMPLE_AD_GUESTS_MAX_QUANTITY = 4;
+
+  var map = document.querySelector('.map');
+
   var generateRandomNumber = function (min, max) {
     var randomNumber = Math.floor(Math.random() * (max - min + 1) + min);
     return randomNumber;
@@ -45,21 +58,21 @@
     var placeArr = [];
 
     while (placeArr.length < maxLength) {
-      var locationX = generateRandomNumber(100, 1000);
-      var locationY = generateRandomNumber(230, 550);
+      var locationX = generateRandomNumber(window.constants.MIN_MAP_WIDTH, map.offsetWidth);
+      var locationY = generateRandomNumber(window.constants.MIN_MAP_HEIGHT, window.constants.MAX_MAP_HEIGHT);
       var place = {
         author: {
-          avatar: 'img/avatars/user0' + generateRandomNumber(1, 8) + '.png'
+          avatar: 'img/avatars/user0' + generateRandomNumber(EXAMPLE_AD_AVATAR_MIN_NUMBER, EXAMPLE_AD_AVATAR_MAX_NUMBER) + '.png'
         },
         offer: {
           title: 'заголовок предложения',
           address: locationX + ', ' + locationY,
-          price: generateRandomNumber(500, 3200),
-          type: getRandomElement(window.constants.PLACE_TYPE),
-          rooms: generateRandomNumber(1, 4),
-          guests: generateRandomNumber(1, 4),
-          checkin: getRandomElement(window.constants.PLACE_TIME),
-          checkout: getRandomElement(window.constants.PLACE_TIME),
+          price: generateRandomNumber(EXAMPLE_AD_MIN_PRICE, EXAMPLE_AD_MAX_PRICE),
+          type: getRandomElement(window.constants.PLACE_TYPES),
+          rooms: generateRandomNumber(EXAMPLE_AD_ROOMS_MIN_QUANTITY, EXAMPLE_AD_ROOMS_MAX_QUANTITY),
+          guests: generateRandomNumber(EXAMPLE_AD_GUESTS_MIN_QUANTITY, EXAMPLE_AD_GUESTS_MAX_QUANTITY),
+          checkin: getRandomElement(window.constants.PLACE_TIMES),
+          checkout: getRandomElement(window.constants.PLACE_TIMES),
           features: generateRandomArr(window.constants.PLACE_FEATURES),
           description: 'строка с описанием',
           photos: generateRandomArr(window.constants.PLACE_PHOTOS)

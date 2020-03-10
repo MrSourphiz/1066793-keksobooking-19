@@ -43,6 +43,12 @@
       target.classList.add('map__pin--active');
       findDesiredPin(placeArr);
       getClose();
+
+      document.addEventListener('keydown', function (pressEvt) {
+        if (pressEvt.key === window.constants.ESC_KEY) {
+          closeCard();
+        }
+      });
     }
   };
 
@@ -59,12 +65,6 @@
     fragment.appendChild(window.card.get(placeArr[desiredPinIndex]));
     map.appendChild(fragment);
   };
-
-  document.addEventListener('keydown', function (evt) {
-    if (evt.key === window.constants.ESC_KEY) {
-      closeCard();
-    }
-  });
 
   window.showCard = {
     use: showCard,

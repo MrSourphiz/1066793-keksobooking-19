@@ -4,15 +4,10 @@
   var map = document.querySelector('.map');
   var mapPinMain = map.querySelector('.map__pin--main');
 
-  var MIN_MAP_WIDTH = 0;
-  var MAX_MAP_WIDTH = map.offsetWidth;
-  var MIN_MAP_HEIGHT = 200;
-  var MAX_MAP_HEIGHT = 690;
-
-  var minX = MIN_MAP_WIDTH - window.constants.PIN_X;
-  var maxX = MAX_MAP_WIDTH - window.constants.PIN_X;
-  var minY = MIN_MAP_HEIGHT - window.constants.PIN_Y;
-  var maxY = MAX_MAP_HEIGHT - window.constants.PIN_Y;
+  var minX = window.constants.MIN_MAP_WIDTH - window.constants.PIN_X;
+  var maxX = map.offsetWidth - window.constants.PIN_X;
+  var minY = window.constants.MIN_MAP_HEIGHT - window.constants.PIN_Y;
+  var maxY = window.constants.MAX_MAP_HEIGHT - window.constants.PIN_Y;
 
   var limitCoords = function (coords) {
     if (coords.x < minX) {
@@ -71,11 +66,11 @@
       document.removeEventListener('mouseup', onMouseUp);
 
       if (dragged) {
-        var onClickPreventDefault = function (clickEvt) {
+        var clickPreventDefault = function (clickEvt) {
           clickEvt.preventDefault();
-          mapPinMain.removeEventListener('click', onClickPreventDefault);
+          mapPinMain.removeEventListener('click', clickPreventDefault);
         };
-        mapPinMain.addEventListener('click', onClickPreventDefault);
+        mapPinMain.addEventListener('click', clickPreventDefault);
       }
     };
 
